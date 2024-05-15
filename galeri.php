@@ -21,7 +21,11 @@
                             while($data = mysqli_fetch_array($query)) {
                                 ?>
                             <tr>
-                                <td><img src="gambar/<?php echo $data['gambar']; ?>" alt="gambar"></td>
+                                <td>
+                                    <a href="gambar/<?php echo $data['gambar']; ?>" target="_blank">
+                                        <img src="gambar/<?php echo $data['gambar']; ?>" width="200" alt="gambar">
+                                    </a>
+                                </td>
                                 <td><?php echo $data['judul'] ?></td>
                                 <td><?php echo $data['nama_album'] ?></td>
                                 <td><?php echo $data['deskripsi'] ?></td>

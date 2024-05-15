@@ -1,4 +1,5 @@
 <?php 
+$id =$_GET['id'];
 if (isset($_POST['judul'])) {
     $judul = $_POST['judul'];
     $deskripsi = $_POST['deskripsi'];
@@ -6,25 +7,30 @@ if (isset($_POST['judul'])) {
     $tanggal = $_POST['tanggal'];
     $id_user = $_SESSION['user']['id_user'];
 
- $gambar = $_FILES['gambar'];
-    $nama_gambar = $gambar['name'];
-    $file_tmp = $gambar['tmp_name'];
-    $file_destination = 'gambar/' . $nama_gambar;
+    $query = mysqli_query($koneksi, "UPDATE foto set judul='$judul', deskripsi='$deskripsi', id_album='$id_album', tanggal='$tanggal', id_user='$id_user' WHERE id_foto=$id");
 
-    if (move_uploaded_file($file_tmp, $file_destination)) {
-        $query = mysqli_query($koneksi, "INSERT INTO foto(judul,deskripsi,id_album,tanggal,gambar,id_user) VALUES('$judul','$deskripsi','$id_album','$tanggal','$nama_gambar','$id_user')");
+    $gambar = $_FILES['gambar'];
+
+    if ($gambar['name'] != "") {
+        $nama_gambar = $gambar['name'];
+        $file_tmp = $gambar['tmp_name'];
+        $file_destination = 'gambar/' . $nama_gambar;
+        if (move_uploaded_file($file_tmp, $file_destination)) {
+        $query = mysqli_query($koneksi, "UPDATE foto set gambar='$nama_gambar' WHERE id_foto=$id");
+    }
+
+    
 
         if ($query) {
-            echo '<script>alert("Tambah data berhasil");</script>';
+            echo '<script>alert("Ubah data berhasil");</script>';
         } else {
-            echo '<script>alert("Tambah data gagal")</script>';
+            echo '<script>alert("Ubah data gagal")</script>';
         }
-    } else {
-        echo '<script>alert("File upload failed")</script>';
-    }
+    
 }
 
-
+$query = mysqli_query($koneksi, "SELECT*FROM foto WHERE id_foto=$id");
+$data = mysqli_fetch_array($query);
 
 ?>
                     <div class="container-fluid px-4">
@@ -38,12 +44,12 @@ if (isset($_POST['judul'])) {
                                 <tr>
                                     <td width="200">Judul</td>
                                     <td width="1">:</td>
-                                    <td><input type="text" name="judul" class="form-control"></td>
+                                    <td><input type="text" name="judul" value="<?php echo $data['judul']; ?>" class="form-control"></td>
                                 </tr>
                                 <tr>
                                     <td>Deskripsi</td>
                                     <td>:</td>
-                                    <td><input type="text" name="deskripsi" class="form-control"></td>
+                                    <td><input type="text" name="deskripsi" value="<?php echo $data['deskripsi']; ?>" class="form-control"></td>
                                 </tr>
                                 <tr>
                                     <td>Album</td>
@@ -54,7 +60,13 @@ if (isset($_POST['judul'])) {
                                                 $al = mysqli_query($koneksi, "SELECT*FROM album");
                                                 while($album = mysqli_fetch_array($al)){
                                                     ?>
-                                                    <option value="<?php echo $album['id_album']; ?>"><?php echo $album['nama_album']; ?></option>
+                                                    <option 
+
+                                                    <?php 
+                                                        if($data['id_album'] == $album['id_album']) echo 'selected';
+                                                    ?>
+                                                    
+                                                    value="<?php echo $album['id_album']; ?>"><?php echo $album['nama_album']; ?></option>
                                                     <?php 
                                                 }
                                             ?>
@@ -64,12 +76,19 @@ if (isset($_POST['judul'])) {
                                 <tr>
                                     <td>Tanggal</td>
                                     <td>:</td>
-                                    <td><input type="date" name="tanggal" class="form-control"></td>
+                                    <td><input type="date" name="tanggal" value="<?php echo $data['tanggal']; ?>" class="form-control"></td>
                                 </tr>
                                 <tr>
                                     <td>Gambar</td>
                                     <td>:</td>
-                                    <td><input type="file" name="gambar" class="form-control"></td>
+                                    <td>
+                                        <input type="file" name="gambar" class="form-control">
+                                        <a href="gambar/<?php echo $data['gambar']; ?>" target="_blank">
+                                            <img src="gambar/<?php echo $data['gambar']; ?>" width="200" alt="gambar">
+                                        </a>
+                                        <br>
+                                        <i class="text-danger">*Jika tidak diganti, kosongkan saja.</i>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td></td>
