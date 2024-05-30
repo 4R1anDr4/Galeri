@@ -10,9 +10,9 @@ if (isset($_POST['username'])) {
 
     $query = mysqli_query($koneksi, "INSERT INTO user(nama_lengkap,email,alamat,username,password) values('$nama','$email','$alamat','$username','$password')");
 
-    if (query > 0 ) {
+    if ($query > 0 ) {
         echo '<script>alert("Register berhasil, silahkan login");</script>';
-    }else{
+    } else {
         echo '<script>alert("Register gagal")</script>';
     }
 }
