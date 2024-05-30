@@ -31,6 +31,8 @@
                                 <td><?php echo $data['deskripsi'] ?></td>
                                 <td><?php echo $data['tanggal'] ?></td>
                                 <td>
+                                    <a href="?page=galeri_like&&id=<?php echo $data['id_foto']; ?>" class="btn btn-warning">Like</a>
+                                    <a href="?page=galeri_komentar&&id=<?php echo $data['id_foto']; ?>" class="btn btn-warning">Komentar</a>
                                     <a href="?page=galeri_ubah&&id=<?php echo $data['id_foto']; ?>" class="btn btn-primary">Ubah</a>
                                     <a href="?page=galeri_hapus&&id=<?php echo $data['id_foto']; ?>" class="btn btn-danger">Hapus</a>
                                 </td>
