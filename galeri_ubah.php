@@ -16,7 +16,8 @@ if (isset($_POST['judul'])) {
         $file_tmp = $gambar['tmp_name'];
         $file_destination = 'gambar/' . $nama_gambar;
         if (move_uploaded_file($file_tmp, $file_destination)) {
-        $query = mysqli_query($koneksi, "UPDATE foto set gambar='$nama_gambar' WHERE id_foto=$id");
+            $query = mysqli_query($koneksi, "UPDATE foto set gambar='$nama_gambar' WHERE id_foto=$id");
+        }
     }
 
     
