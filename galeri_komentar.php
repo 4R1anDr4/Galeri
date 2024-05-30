@@ -83,7 +83,7 @@ $data = mysqli_fetch_array($query);
                             while($data = mysqli_fetch_array($query)) {
                             ?>
                             <div class="card mb-2">
-                                <div class="card-header"><?php echo $data['nama_lengkap'] . '('.$data['tanggal']. ')'; ?></div>
+                                <div class="card-header bg-primary"><?php echo $data['nama_lengkap'] . '('.$data['tanggal']. ')'; ?></div>
                                 <div class="card-body"><?php echo $data['komentar']; ?></div>
                             </div>
                             <?php
